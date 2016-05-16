@@ -1,4 +1,4 @@
-from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
+from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperM$
 
 import time
 import atexit
@@ -6,41 +6,24 @@ import atexit
 class MotorController:
     def __init__(self):
         mh = Adafruit_MotorHAT(addr=0x60)
-        self.motor = mh.getMotor(1)
-        self.motor.setSpeed(150)
+        self.stepper = mh.getStepper(200, 1)
+        self.stepper.setSpeed(30)
     
     
     def motor_test(self):
         while (True):
-            print "Forward! "
-            self.motor.run(Adafruit_MotorHAT.FORWARD)
-         
-            print "\tSpeed up..."
-            for i in range(255):
-                self.motor.setSpeed(i)
-                time.sleep(0.01)
-         
-            print "\tSlow down..."
-            for i in reversed(range(255)):
-                self.motor.setSpeed(i)
-                time.sleep(0.01)
-         
-            print "Backward! "
-            self.motor.run(Adafruit_MotorHAT.BACKWARD)
-         
-            print "\tSpeed up..."
-            for i in range(255):
-                self.motor.setSpeed(i)
-                time.sleep(0.01)
-         
-            print "\tSlow down..."
-            for i in reversed(range(255)):
-                self.motor.setSpeed(i)
-                time.sleep(0.01)
-         
-            print "Release"
-            self.motor.run(Adafruit_MotorHAT.RELEASE)
-            time.sleep(1.0)
+            print("Single coil steps")
+            self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
+            self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+            print("Double coil steps")
+            self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.DOUBLE)
+            self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.DOUBLE)
+            print("Interleaved coil steps")
+            self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.INTERLEAVE)
+            self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.INTERLEAVE)
+            print("Microsteps")
+            self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.MICROSTEP)
+            self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.MICROSTEP)
 
 def turnOffMotors():
     mh = Adafruit_MotorHAT(addr=0x60)
