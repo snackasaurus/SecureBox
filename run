@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+from BoxController import BoxController
+from KeyPad import KeyPad
+from Channels import Channels
+
+
+box_controller = BoxController()
