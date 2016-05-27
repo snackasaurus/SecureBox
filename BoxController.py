@@ -8,8 +8,8 @@ class BoxController:
     ####################################################################################################################
     #                                       HOUSE KEEPING
     ####################################################################################################################
-    SENSOR_OUT_PIN = 11
-    SENSOR_IN_PIN = 13
+    SENSOR_OUT_PIN = 18
+    SENSOR_IN_PIN = 22
     def __init__(self):
         """
         setup the GPIO and motor hat for the Pi
@@ -85,13 +85,6 @@ class BoxController:
             print("Double coil steps")
             self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.DOUBLE)
             self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.DOUBLE)
-            #print("Interleaved coil steps")
-            #self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.INTERLEAVE)
-            #self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.INTERLEAVE)
-            #print("Microsteps")
-            #self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.MICROSTEP)
-            #self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.MICROSTEP)
-
 
     ####################################################################################################################
     #                                       SENSOR METHODS
