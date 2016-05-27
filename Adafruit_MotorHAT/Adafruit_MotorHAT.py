@@ -5,7 +5,7 @@ import time
 
 class Adafruit_StepperMotor:
 	MICROSTEPS = 8
-        MICROSTEP_CURVE = [0, 50, 98, 142, 180, 212, 236, 250, 255]
+	MICROSTEP_CURVE = [0, 50, 98, 142, 180, 212, 236, 250, 255]
 
 	#MICROSTEPS = 16
 	# a sinusoidal curve NOT LINEAR!
