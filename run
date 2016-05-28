@@ -39,3 +39,9 @@ class StateMachine():
     def send_opened_message(self):
         self.log('Sending opened message')
         raw_input('Press enter.')
+
+
+state_machine = StateMachine()
+state_machine.run()
+
+print('Have a great day :D ')
