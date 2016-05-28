@@ -1,12 +1,12 @@
-from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_Stepper
+from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
 import RPi.GPIO as GPIO
 
 import time
 import atexit
 
 class BoxController:
-    SENSOR_OUT_PIN = 11
-    SENSOR_IN_PIN = 12
+    SENSOR_OUT_PIN = 18
+    SENSOR_IN_PIN = 22
     NUM_MOTOR_STEPS = 50
     ####################################################################################################################
     #                                       HOUSE KEEPING
@@ -18,11 +18,11 @@ class BoxController:
         """
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.SENSOR_OUT_PIN, GPIO.OUT)
-        GPIO.setup(self.SENSOR_IN_PIN, GPIO.IN)
+        GPIO.setup(self.SENSOR_IN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         mh = Adafruit_MotorHAT(addr=0x60)
         self.stepper = mh.getStepper(200, 1)
-        self.stepper.setSpeed(30)
+        self.stepper.setSpeed(1000)
 
     def tear_down(self):
         """
@@ -93,13 +93,6 @@ class BoxController:
             print("Double coil steps")
             self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.DOUBLE)
             self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.DOUBLE)
-            print("Interleaved coil steps")
-            self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.INTERLEAVE)
-            self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.INTERLEAVE)
-            print("Microsteps")
-            self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.MICROSTEP)
-            self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.MICROSTEP)
-
 
     ####################################################################################################################
     #                                       SENSOR METHODS
