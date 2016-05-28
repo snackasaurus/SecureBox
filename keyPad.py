@@ -4,4 +4,4 @@ class KeyPad:
         self.message_queue = message_queue
 
     def wait_for_secret_code_match(self, secret_code):
-        while
+        print('Waiting for secret code')

@@ -5,11 +5,12 @@ import time
 import atexit
 
 class BoxController:
+    SENSOR_OUT_PIN = 11
+    SENSOR_IN_PIN = 12
+    NUM_MOTOR_STEPS = 50
     ####################################################################################################################
     #                                       HOUSE KEEPING
     ####################################################################################################################
-    SENSOR_OUT_PIN = 11
-    SENSOR_IN_PIN = 12
     def __init__(self):
         """
         setup the GPIO and motor hat for the Pi
@@ -41,37 +42,44 @@ class BoxController:
         This will manage the opening of the secure box
         :return:
         """
+        self.log('Openeing box')
         while not self.all_the_way_open():
             self.motor_open_box()
+
+        self.log('Box Open')
 
     def close_box(self):
         """
         This will manange the closing of the secure box
         :return:
         """
+        self.log('Closing box')
         while not self.all_the_way_closed():
             self.motor_close_box()
 
+        self.log('Box closed')
 
     ####################################################################################################################
     #                                       MOTOR METHODS
     ####################################################################################################################
     def motor_open_box(self):
         """
-        Turns the motor in the appropriate direction such that the lid to box retracts exposing the payload chamber
+        Turns the motor forward self.NUM_MOTOR_STEPS
         :return:
         """
-        #TODO
-        print('open box')
+        self.log('Turning motor forwarn ' + str(self.NUM_MOTOR_STEPS) + ' steps')
+        self.stepper.step(self.NUM_MOTOR_STEPS, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.DOUBLE)
+
 
     def motor_close_box(self):
         """
-        Turns the motor in the appropriate direction such that the lid to the box will extend covering the payload
-         chamber
+        Turns the motor backward self.NUM_MOTOR_STEPS
         :return:
         """
-        #TODO
-        print('close box')
+        self.log('Turning motor forwarn ' + str(self.NUM_MOTOR_STEPS) + ' steps')
+        self.stepper.step(self.NUM_MOTOR_STEPS, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.DOUBLE)
+
+
 
     def motor_test(self):
         """
@@ -120,6 +128,9 @@ class BoxController:
         sensor_value = GPIO.input(self.SENSOR_IN_PIN)
         GPIO.output(self.SENSOR_OUT_PIN, 0)
         return sensor_value is 1
+
+    def log(self, message):
+        print(message)
 
 def turnOffMotors():
     mh = Adafruit_MotorHAT(addr=0x60)
