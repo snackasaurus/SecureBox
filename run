@@ -16,6 +16,9 @@ class StateMachine():
                 self.wait_for_secret_code_match(secret_code)
                 self.box_controller.open_box()
                 self.send_opened_message()
+        except KeyboardInterrupt:
+            self.log('Closing')
+            self.box_controller.tear_down()
 
     def wait_for_secret_code_match(self, secret_code):
         while True:
