@@ -1,8 +1,10 @@
 from socket import socket, AF_INET, SOCK_STREAM
-from struct import unpack
+from struct import unpack, pack
 
 BUF_SIZE = 4096
 DECODE_CODE = '!I'
+OPEN = 1
+CLOSED = 0
 
 class SecretCode:
     def __init__(self, srv_ip, srv_port):
@@ -23,3 +25,8 @@ class SecretCode:
         recv_data = self.srv_socket.recv(BUF_SIZE)
         secret_code, = unpack(DECODE_CODE, recv_data)
         print(secret_code)
+        return secret_code
+
+    def send_open_message(self):
+        data = pack(DECODE_CODE, OPEN)
+        self.srv_socket.sendall(data)
