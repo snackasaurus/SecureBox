@@ -1,8 +1,37 @@
 #!/usr/bin/env python3
 from BoxController import BoxController
-from KeyPad import KeyPad
-from Channels import Channels
 
+class StateMachine():
+    def __init__(self):
+        self.box_controller = BoxController()
 
-box_controller = BoxController()
+    def log(self, message):
+        print(message)
 
+    def run(self):
+        try:
+            while True:
+                secret_code = self.get_next_secret_code()
+                self.box_controller.close_box()()
+                self.wait_for_secret_code_match(secret_code)
+                self.box_controller.open_box()
+                self.send_opened_message()
+
+    def wait_for_secret_code_match(self, secret_code):
+        while True:
+            print()
+            user_code = input()
+            if user_code == secret_code:
+                print('Secret code matched')
+                return
+            else:
+                self.log('Secret code did not match')
+
+    def get_next_secret_code(self):
+        self.log('Waiting for next secret')
+        secret_code = input()
+        self.log('secret code : ' + secret_code)
+        return secret_code
+
+    def send_opened_message(self):
+        self.log('Sending opened message')
