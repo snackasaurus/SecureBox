@@ -21,6 +21,11 @@ class StateMachine():
             self.box_controller.tear_down()
 
     def wait_for_secret_code_match(self, secret_code):
+        '''
+        Blocking IO call that waits for user input
+        :param secret_code:
+        :return:
+        '''
         while True:
             print()
             user_code = raw_input()
@@ -31,12 +36,22 @@ class StateMachine():
                 self.log('Secret code did not match')
 
     def get_next_secret_code(self):
+        '''
+        Blocking IO call to server to get the next secret code
+        :return:
+        '''
+        # TODO blocking IO call to network for next secret
         self.log('Waiting for next secret')
         secret_code = raw_input()
         self.log('secret code : ' + secret_code)
         return secret_code
 
     def send_opened_message(self):
+        '''
+        Sends a packet to the server indicating that the customer has opened the box and probably retrieved their snack
+        :return:
+        '''
+        # TODO send newtwork call indicating opened state
         self.log('Sending opened message')
         raw_input('Press enter.')
 
