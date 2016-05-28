@@ -1,5 +1,6 @@
 from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
 import RPi.GPIO as GPIO
+from time import sleep
 
 import time
 import atexit
@@ -33,6 +34,8 @@ class BoxController:
         atexit.register(turnOffMotors)
         GPIO.cleanup()
 
+    def log(self, message):
+        print(message)
 
     ####################################################################################################################
     #                                       ACTION METHODS
@@ -86,13 +89,17 @@ class BoxController:
         Test the motor
         :return:
         """
-        while (True):
-            print("Single coil steps")
-            self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
-            self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
-            print("Double coil steps")
-            self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.DOUBLE)
-            self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.DOUBLE)
+        try:
+            self.log('Testing motor')
+            while (True):
+                self.log("Single coil steps")
+                self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.SINGLE)
+                self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.SINGLE)
+                self.log("Double coil steps")
+                self.stepper.step(100, Adafruit_MotorHAT.FORWARD, Adafruit_MotorHAT.DOUBLE)
+                self.stepper.step(100, Adafruit_MotorHAT.BACKWARD, Adafruit_MotorHAT.DOUBLE)
+        except KeyboardInterrupt:
+            self.log('Test complete')
 
     ####################################################################################################################
     #                                       SENSOR METHODS
@@ -122,8 +129,21 @@ class BoxController:
         GPIO.output(self.SENSOR_OUT_PIN, 0)
         return sensor_value is 1
 
-    def log(self, message):
-        print(message)
+    def sensor_test(self):
+        """
+        Logs the value of the sensor until keyboard interupt
+        :return:
+        """
+        try:
+            self.log('Testing sensor')
+            while True:
+                sleep(1)
+                if self.check_sensor_connection():
+                    self.log('Sensor IS  conneceted')
+                else:
+                    self.log('Sensor NOT connected')
+        except KeyboardInterrupt:
+            self.log('Test complete')
 
 def turnOffMotors():
     mh = Adafruit_MotorHAT(addr=0x60)
