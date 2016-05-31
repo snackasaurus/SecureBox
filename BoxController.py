@@ -8,7 +8,7 @@ import atexit
 class BoxController:
     SENSOR_OUT_PIN = 18
     SENSOR_IN_PIN = 22
-    NUM_MOTOR_STEPS = 50
+    NUM_MOTOR_STEPS = 5
     ####################################################################################################################
     #                                       HOUSE KEEPING
     ####################################################################################################################
@@ -46,6 +46,11 @@ class BoxController:
         :return:
         """
         self.log('Openeing box')
+        self.motor_open_box() 
+        self.motor_open_box() 
+        self.motor_open_box() 
+        self.motor_open_box() 
+        self.motor_open_box() 
         while not self.all_the_way_open():
             self.motor_open_box()
 
@@ -57,6 +62,11 @@ class BoxController:
         :return:
         """
         self.log('Closing box')
+        self.motor_close_box()
+        self.motor_close_box()
+        self.motor_close_box()
+        self.motor_close_box()
+        self.motor_close_box()
         while not self.all_the_way_closed():
             self.motor_close_box()
 
